@@ -1,0 +1,23 @@
+CREATE TABLE USERS
+(
+    uid 		INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	name 		VARCHAR(64) NOT NULL,
+	gh_id 		VARCHAR(16) NOT NULL,
+	gh_token 	VARCHAR(256) NOT NULL -- Encrypted GitHub access token
+);
+
+CREATE TABLE CLASSROOM
+(
+    cid 		INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	name 		VARCHAR(64) NOT NULL,
+	description VARCHAR(150)
+);
+
+
+CREATE TABLE USER_CLASSROOM
+(
+	type		VARCHAR(16) NOT NULL CHECK (type IN ('teacher', 'student')),
+    uid 		INT REFERENCES USERS(uid),
+    cid 		INT REFERENCES CLASSROOM(cid),
+    PRIMARY KEY(uid, cid)
+);
